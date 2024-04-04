@@ -15,9 +15,13 @@ exports.registerUser = async (req, res) => {
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
   } catch (error) {
-    res.status(500).json({ message: "Error al registrar el usuario", error: error });
+    if (error.code === 11000) { // Error de duplicado de clave única en MongoDB
+      return res.status(400).json({ message: "El nombre de usuario ya está en uso" });
+    }
+    res.status(500).json({ message: "Error al registrar el usuario", error: error.message });
   }
 };
+
 
 exports.loginUser = async (req, res) => {
   try {

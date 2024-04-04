@@ -1,6 +1,8 @@
 const express = require('express');
-const router = express.Router();
+const { body, validationResult } = require('express-validator');
 const productsController = require('../controllers/productsController');
+
+const router = express.Router();
 
 /**
  * @openapi
@@ -22,10 +24,20 @@ const productsController = require('../controllers/productsController');
  *               description:
  *                 type: string
  *     responses:
- *       201:
+ *       201:   
  *         description: Producto creado con éxito.
  */
-router.post('/', productsController.createProduct);
+router.post('/', [
+  body('name').trim().isLength({ min: 1 }).withMessage('El nombre del producto es obligatorio.'),
+  body('price').isFloat({ gt: 0 }).withMessage('El precio debe ser mayor que 0.'),
+  body('description').trim().isLength({ min: 1 }).withMessage('La descripción del producto es obligatoria.')
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  productsController.createProduct(req, res);
+});
 
 /**
  * @openapi
@@ -119,7 +131,17 @@ router.get('/:id', productsController.getProductById);
  *       404:
  *         description: Producto no encontrado.
  */
-router.put('/:id', productsController.updateProduct);
+router.put('/:id', [
+  body('name').trim().isLength({ min: 1 }).withMessage('El nombre del producto es obligatorio.').optional(),
+  body('price').isFloat({ gt: 0 }).withMessage('El precio debe ser mayor que 0.').optional(),
+  body('description').trim().isLength({ min: 1 }).withMessage('La descripción del producto es obligatoria.').optional()
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  productsController.updateProduct(req, res);
+});
 
 /**
  * @openapi
