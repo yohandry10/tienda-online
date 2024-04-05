@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-const ProductDetails = ({ product }) => {
-  if (!product || !product.name) {
+const ProductDetails = ({ productId }) => {
+  const [product, setProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Asume que tienes una función o constante que define la URL del backend
+    const fetchProductDetails = async () => {
+      try {
+        const response = await fetch(`[URL_BACKEND]/api/products/${productId}`);
+        if (!response.ok) {
+          throw new Error('Producto no encontrado');
+        }
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error("Error al obtener los detalles del producto:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProductDetails();
+  }, [productId]);
+
+  if (isLoading) {
+    return <p>Cargando detalles del producto...</p>;
+  }
+
+  if (!product) {
     return <p>No se encontraron detalles del producto.</p>;
   }
 

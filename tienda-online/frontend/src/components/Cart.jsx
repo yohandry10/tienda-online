@@ -40,20 +40,20 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity }) => {
     const checkStockAndCheckout = () => {
         setIsCheckingOut(true);
         Promise.all(cartItems.map(item =>
-          fetch(`/api/products/${item.id}`)
-          .then(response => response.json())
-          .then(data => ({...item, stock: data.stock}))
+            fetch(`/api/products/${item.id}`)
+                .then(response => response.json())
+                .then(data => ({ ...item, stock: data.stock }))
         )).then(results => {
-          const outOfStockItems = results.filter(item => item.stock < item.qty);
-          if (outOfStockItems.length > 0) {
-            alert("Algunos productos en tu carrito ya no tienen suficiente stock. Por favor, ajusta las cantidades antes de proceder.");
-            setIsCheckingOut(false);
-          } else {
-            // Aquí deberías implementar la lógica de finalización de compra, por ejemplo:
-            console.log("Procediendo al pago");
-            // completePurchase(); // Asegúrate de definir cómo manejas el proceso de compra
-            setIsCheckingOut(false);
-          }
+            const outOfStockItems = results.filter(item => item.stock < item.qty);
+            if (outOfStockItems.length > 0) {
+                alert("Algunos productos en tu carrito ya no tienen suficiente stock. Por favor, ajusta las cantidades antes de proceder.");
+                setIsCheckingOut(false);
+            } else {
+                // Aquí deberías implementar la lógica de finalización de compra, por ejemplo:
+                console.log("Procediendo al pago");
+                // completePurchase(); // Asegúrate de definir cómo manejas el proceso de compra
+                setIsCheckingOut(false);
+            }
         }).catch(error => {
             console.error("Error al verificar el stock:", error);
             setIsCheckingOut(false);
@@ -75,12 +75,12 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity }) => {
                         />
                     ))}
                     <h3>Total: ${calculateTotal()}</h3>
-                    <button 
-                      style={styles.button} 
-                      onClick={checkStockAndCheckout} 
-                      disabled={isCheckingOut}
+                    <button
+                        style={styles.button}
+                        onClick={checkStockAndCheckout}
+                        disabled={isCheckingOut}
                     >
-                      {isCheckingOut ? 'Verificando...' : 'Realizar Pago'}
+                        {isCheckingOut ? 'Verificando...' : 'Realizar Pago'}
                     </button>
                 </>
             )}
