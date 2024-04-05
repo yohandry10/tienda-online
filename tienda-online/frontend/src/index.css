@@ -5,25 +5,10 @@ body {
   padding: 0;
 }
 
-
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-/* Estilos de la barra de navegación */
-nav {
-  background-color: #02022c;
-  color: #fff;
-  padding: 10px 0;
-  text-align: center;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 10px;
 }
 
 /* Estilos del filtro de búsqueda (posicionado en la parte superior) */
@@ -57,7 +42,7 @@ nav a {
   margin-top: calc(50px + 20px); /* Agrega espacio para el filtro y el padding */
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between ;
+  justify-content: space-between;
 }
 
 .product {
@@ -93,11 +78,4 @@ nav a {
 
 .product button:hover {
   background-color: #555;
-}
-
-/* Estilos del carrito de compras */
-.cart {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }

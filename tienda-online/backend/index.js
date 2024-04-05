@@ -5,8 +5,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 
@@ -19,14 +17,12 @@ app.use(helmet());
 // Permitir análisis de cuerpo JSON
 app.use(bodyParser.json());
 
-// Configuración de CORS dinámica
+// Configuración de CORS
 const allowedOrigins = ['http://localhost:3000', 'https://tu-dominio-frontend.com'];
-
 app.use(cors({
-  origin: function(origin, callback){
-    // Permitir solicitudes sin 'origin' (como aplicaciones móviles o postman)
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
       var msg = 'La política de CORS para este sitio no permite el acceso desde el origen especificado.';
       return callback(new Error(msg), false);
     }
@@ -56,7 +52,7 @@ const swaggerOptions = {
       description: 'Documentación de la API para Mi Tienda Online',
     },
   },
-  apis: ['./routes/*.js'], // Asegúrate de que la ruta sea correcta respecto a tu estructura de archivos
+  apis: ['./routes/*.js'], // Asegura la correcta ubicación de tus archivos de ruta
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
@@ -78,18 +74,17 @@ function authenticateToken(req, res, next) {
 // Importar las rutas
 const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/users');
+const purchaseRoutes = require('./routes/purchases'); // Asegúrate de tener este archivo en tu estructura de proyecto
 
 // Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('Conectado a MongoDB Atlas'))
 .catch(err => console.error('Error al conectar con MongoDB Atlas:', err));
 
 // Usar rutas
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/purchases', purchaseRoutes); // Integración de la nueva ruta de compras
 
 // Ruta raíz
 app.get('/', (req, res) => {

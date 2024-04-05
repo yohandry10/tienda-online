@@ -8,7 +8,8 @@ import NavBar from './components/NavBar';
 import ProductDetails from './components/ProductDetails';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
-import AdminPanel from './components/AdminPanel';
+
+import GestorCompras from './components/PurchaseManager';
 
 const PrivateRoute = ({ element }) => {
   const { currentUser } = useAuth();
@@ -56,7 +57,7 @@ function App() {
                         <Route path="/" element={<ProductList addToCart={addToCart} />} />
                         <Route path="cart" element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />} />
                         <Route path="products/:id" element={<ProductDetails />} />
-                        <Route path="admin" element={<AdminPanel />} />
+                        <Route path="admin" element={<GestorCompras />} />
                     </Route>
                 </Routes>
             </Router>

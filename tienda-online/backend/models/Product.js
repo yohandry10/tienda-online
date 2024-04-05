@@ -3,24 +3,28 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true // Asumiendo que el nombre es obligatorio
+    required: true
   },
   description: {
     type: String,
-    required: true // Asumiendo que la descripción es obligatoria
+    required: true
   },
   price: {
     type: Number,
-    required: true // Asumiendo que el precio es obligatorio
+    required: true
   },
   category: {
     type: String,
-    required: true, // Añadido el campo categoría como obligatorio
-    index: true // Añadiendo índice para mejorar la eficiencia de las consultas por categoría
+    required: true,
+    index: true
+  },
+  stock: {
+    type: Number,
+    required: true,
+    min: 0 // Asegura que el stock no sea negativo.
   }
 });
 
-// Opcional: Índice compuesto si planeas realizar búsquedas frecuentes que involucren ambas, categoría y precio.
 productSchema.index({ category: 1, price: -1 });
 
 module.exports = mongoose.model('Product', productSchema);
