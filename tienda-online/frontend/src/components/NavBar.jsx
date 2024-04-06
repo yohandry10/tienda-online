@@ -1,79 +1,68 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Container, Navbar, Nav } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
+import logo from '../assets/img/carrito1.png'; // Asume que el directorio 'assets' está dentro de 'src'
+
+import navIcon1 from '../assets/img/nav-icon1.svg';
+import navIcon2 from '../assets/img/nav-icon2.svg';
+import navIcon3 from '../assets/img//nav-icon3.svg';
 
 const NavBar = ({ totalCartItems }) => {
     const { currentUser, logout } = useAuth();
+    const [scrolled, setScrolled] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const onScroll = () => {
+            if (window.scrollY > 50) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+        window.addEventListener("scroll", onScroll);
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
 
     async function handleLogout() {
         try {
             await logout();
             console.log("Has cerrado sesión con éxito");
+            navigate('/signin');
         } catch (error) {
             console.error("Error al cerrar sesión", error);
         }
     }
 
-    const styles = {
-        navBar: {
-            backgroundColor: '#343a40', // Fondo oscuro
-            color: '#fff', // Texto blanco
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '10px 20px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.4)',
-        },
-        linkContainer: {
-            display: 'flex',
-            alignItems: 'center',
-        },
-        link: {
-            color: '#ffc107', // Dorado
-            textDecoration: 'none',
-            margin: '0 10px',
-            fontWeight: 'bold',
-        },
-        cartLink: {
-            display: 'flex',
-            alignItems: 'center',
-            textDecoration: 'none',
-            color: '#ffc107',
-            margin: '0 10px',
-            fontWeight: 'bold',
-        },
-        cartIcon: {
-            marginRight: '5px',
-        },
-        logoutButton: {
-            background: 'none',
-            border: '2px solid #ffc107',
-            borderRadius: '5px',
-            color: '#ffc107',
-            padding: '5px 10px',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-        }
-    };
-
     return (
-        <nav style={styles.navBar}>
-            <div style={styles.linkContainer}>
-                <Link to="/" style={styles.link}>Inicio</Link>
-                <Link to="/admin" style={styles.link}>Administrador de compras</Link>
-            </div>
-            <div style={styles.linkContainer}>
-                <Link to="/cart" style={styles.cartLink}>
-                    <span style={styles.cartIcon}>🛒</span>
-                    Carrito ({totalCartItems})
-                </Link>
-                {currentUser ? (
-                    <button onClick={handleLogout} style={styles.logoutButton}>Cerrar Sesión</button>
-                ) : (
-                    <Link to="/signin" style={styles.link}>Iniciar Sesión</Link>
-                )}
-            </div>
-        </nav>
+        <Navbar expand="lg" className={scrolled ? "scrolled" : ""}>
+            <Container>
+                <Navbar.Brand as={Link} to="/">
+                    <img src={logo} alt="Logo" />
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="ms-auto">
+                        <Nav.Link as={Link} to="/">Inicio</Nav.Link>
+                        {currentUser && <Nav.Link as={Link} to="/admin">Administrador de compras</Nav.Link>}
+                        <Nav.Link as={Link} to="/cart">
+                            🛒 Carrito ({totalCartItems})
+                        </Nav.Link>
+                        {currentUser ? (
+                            <Nav.Link onClick={handleLogout}>Cerrar Sesión</Nav.Link>
+                        ) : (
+                            <Nav.Link as={Link} to="/signin">Iniciar Sesión</Nav.Link>
+                        )}
+                    </Nav>
+                    <div className="social-icon">
+                        <Link to="#"><img src={navIcon1} alt="" /></Link>
+                        <Link to="#"><img src={navIcon2} alt="" /></Link>
+                        <Link to="#"><img src={navIcon3} alt="" /></Link>
+                    </div>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 };
 

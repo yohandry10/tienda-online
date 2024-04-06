@@ -8,12 +8,13 @@ import NavBar from './components/NavBar';
 import ProductDetails from './components/ProductDetails';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import GestorCompras from './components/PurchaseManager';
 
 const PrivateRoute = ({ element }) => {
-  const { currentUser } = useAuth();
-  return currentUser ? element : <Navigate to="/signin" />;
+    const { currentUser } = useAuth();
+    return currentUser ? element : <Navigate to="/signin" />;
 };
 
 function App() {
@@ -60,9 +61,10 @@ function App() {
                         <Route path="admin" element={<GestorCompras />} />
                     </Route>
                 </Routes>
+
             </Router>
         </AuthProvider>
     );
 }
 
-export default App;
+export default App; 
