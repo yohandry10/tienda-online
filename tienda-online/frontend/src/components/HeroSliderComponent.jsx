@@ -21,7 +21,7 @@ const HeroSliderComponent = () => {
   const [text, setText] = useState('');
   const [delta, setDelta] = useState(300 - Math.random() * 100);
 
-  const toRotate = useMemo(() => ["Cloud Engineer", "AgileOps", "DevOps"], []);
+  const toRotate = useMemo(() => ["Gorras", "Relojes", "Zapatos"], []);
 
   useEffect(() => {
     const period = 2000;
@@ -60,7 +60,7 @@ const HeroSliderComponent = () => {
               <img src={image} alt={`Slide ${index + 1}`} style={{ width: '100%', height: 'auto' }}/>
               <div className="slider-text">
                 {/* Ajusta los mensajes de acuerdo a cada imagen */}
-                <h2>{index === 3 ? "Tu mensaje para la diapositiva del encabezado" : `Mensaje para la diapositiva ${index + 1}`}</h2>
+            
               </div>
             </div>
           )}

@@ -14,9 +14,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import PreloadComponent from './components/PreloadComponent';
-import HeroSliderComponent from './components/HeroSliderComponent';
 import ParallaxEffectComponent from './components/ParallaxEffectComponent';
 import BackToTopButtonComponent from './components/BackToTopButtonComponent';
+import HeroSliderControl from './components/HeroSliderControl'; // Asegúrate de importar el nuevo componente
 
 function App() {
     const [cartItems, setCartItems] = useState([]);
@@ -46,14 +46,14 @@ function App() {
             <Router>
                 <PreloadComponent />
                 <NavBar totalCartItems={totalCartItems} />
-                {auth.currentUser && <HeroSliderComponent />}
+                <HeroSliderControl /> {/* Usar el componente de control aquí */}
                 <Routes>
                     <Route path="/signin" element={<SignIn />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/" element={
                         auth.currentUser ? (
                             <ParallaxEffectComponent>
-                                <CatalogoProductos addToCart={addToCart} /> //
+                                <CatalogoProductos addToCart={addToCart} />
                             </ParallaxEffectComponent>
                         ) : (
                             <Navigate to="/signin" />

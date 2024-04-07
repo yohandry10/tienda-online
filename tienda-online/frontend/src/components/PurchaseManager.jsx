@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase-config';
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore'; // Importa las nuevas funciones
 
 const PurchaseManager = () => {
     const [orders, setOrders] = useState([]);
@@ -7,8 +8,8 @@ const PurchaseManager = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const ordersSnapshot = await db.collection('orders').get();
-                const ordersData = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const querySnapshot = await getDocs(collection(db, 'orders'));
+                const ordersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setOrders(ordersData);
             } catch (error) {
                 console.error('Error fetching orders:', error);
@@ -20,7 +21,8 @@ const PurchaseManager = () => {
 
     const handleUpdateStatus = async (orderId, newStatus) => {
         try {
-            await db.collection('orders').doc(orderId).update({ status: newStatus });
+            const orderDoc = doc(db, 'orders', orderId); // Accede al documento específico
+            await updateDoc(orderDoc, { status: newStatus }); // Actualiza el documento
             console.log(`Order ${orderId} status updated to ${newStatus}`);
             // Actualizar la lista de órdenes después de cambiar el estado
             setOrders(orders.map(order => order.id === orderId ? { ...order, status: newStatus } : order));
