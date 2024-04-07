@@ -155,3 +155,96 @@
       grid-template-columns: 1fr;
     }
   }
+  .hero-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .slick-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: center;
+    background-size: cover;
+  }
+  
+  .slick-slide img {
+    width: 100%; /* Asegura que la imagen cubra el ancho del slide */
+    height: auto; /* Mantiene la proporción de la imagen */
+    max-height: 70vh; /* Limita la altura máxima del slide */
+    object-fit: cover; /* Cubre el área del slide sin perder las proporciones de la imagen */
+  }
+  
+  .slick-prev, .slick-next {
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo para mejor visibilidad */
+    border-radius: 50%; /* Botones redondos */
+    width: 40px; /* Tamaño de los botones */
+    height: 40px; /* Tamaño de los botones */
+  }
+  
+  .slick-prev { left: 10px; }
+  .slick-next { right: 10px; }
+  
+  .parallax-section {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .parallax-background {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .back-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  
+  .back-to-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Ajustes para dispositivos móviles */
+  @media (max-width: 768px) {
+    .product-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .slick-slide img {
+      max-height: 50vh; /* Altura máxima más conservadora para móviles */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .product-list {
+      grid-template-columns: 1fr;
+    }
+  
+    .slick-slide img {
+      max-height: 30vh; /* Ajuste de altura para dispositivos muy pequeños */
+    }
+  }

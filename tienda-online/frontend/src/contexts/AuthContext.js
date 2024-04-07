@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.js
 import React, { useContext, useState, useEffect, createContext } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 
@@ -14,10 +13,11 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const auth = getAuth();
-    return onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
     });
+    return unsubscribe; // Asegura limpiar la suscripción cuando el componente se desmonte
   }, []);
 
   // Función para registrar un nuevo usuario
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     return signOut(getAuth());
   }
 
-  const value = { currentUser, signup, login, logout };
+  const value = { currentUser, signup, login, logout, loading };
 
   return (
     <AuthContext.Provider value={value}>
