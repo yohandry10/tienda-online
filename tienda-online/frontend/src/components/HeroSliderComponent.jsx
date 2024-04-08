@@ -1,73 +1,76 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import Slider from 'react-slick';
-import 'animate.css';
-import TrackVisibility from 'react-on-screen';
-import slider1 from '../assets/img/slider1.jpg';
-import slider2 from '../assets/img/slider2.jpg';
-import slider4 from '../assets/img/slider4.jpg';
-import headerImg from "../assets/img/header-img.png";
+import React, { useState, useEffect } from 'react';
 
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
+// Importa las imágenes que quieres mostrar
+import sliderImage1 from '../assets/img/header.jpg';
+import sliderImage2 from '../assets/img/slider2.jpg';
+import sliderImage3 from '../assets/img/slider4.jpg';
 
-const HeroSliderComponent = () => {
-  const [loopNum, setLoopNum] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [text, setText] = useState('');
-  const [delta, setDelta] = useState(300 - Math.random() * 100);
+const images = [sliderImage1, sliderImage2, sliderImage3]; // Array de imágenes
 
-  const toRotate = useMemo(() => ["Gorras", "Relojes", "Zapatos"], []);
+const HeroBannerComponent = () => {
+  const [currentIndex, setCurrentIndex] = useState(0); // Estado para controlar el índice de la imagen actual
 
   useEffect(() => {
-    const period = 2000;
+    const interval = setInterval(() => {
+      // Cambia al próximo slide cada 3 segundos
+      setCurrentIndex((currentIndex) => (currentIndex + 1) % images.length);
+    }, 3000); // Cambia la imagen cada 3000 milisegundos (3 segundos)
 
-    let ticker = setInterval(() => {
-      let i = loopNum % toRotate.length;
-      let fullText = toRotate[i];
-      let updatedText = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
+    return () => clearInterval(interval); // Limpia el intervalo cuando el componente se desmonta
+  }, []);
 
-      setText(updatedText);
+  // Función para ir al slide anterior
+  const goToPrevious = () => {
+    setCurrentIndex(currentIndex => (currentIndex - 1 + images.length) % images.length);
+  };
 
-      if (isDeleting) {
-        setDelta(prevDelta => prevDelta / 2);
-      }
-
-      if (!isDeleting && updatedText === fullText) {
-        setIsDeleting(true);
-        setDelta(period);
-      } else if (isDeleting && updatedText === '') {
-        setIsDeleting(false);
-        setLoopNum(loopNum + 1);
-        setDelta(500);
-      }
-    }, delta);
-
-    return () => { clearInterval(ticker); };
-  }, [text, isDeleting, loopNum, delta, toRotate]);
+  // Función para ir al siguiente slide
+  const goToNext = () => {
+    setCurrentIndex(currentIndex => (currentIndex + 1) % images.length);
+  };
 
   return (
-    <Slider {...settings}>
-      {/* Usamos TrackVisibility en todas las diapositivas para el efecto */}
-      {[slider1, slider2, slider4, headerImg].map((image, index) => (
-        <TrackVisibility key={index}>
-          {({ isVisible }) => (
-            <div className={isVisible ? "animate__animated animate__zoomIn" : ""}>
-              <img src={image} alt={`Slide ${index + 1}`} style={{ width: '100%', height: 'auto' }} />
-              <div className="slider-text">
-                {/* Ajusta los mensajes de acuerdo a cada imagen */}
-
-              </div>
-            </div>
-          )}
-        </TrackVisibility>
-      ))}
-    </Slider>
+    <div style={{
+      backgroundImage: `url(${images[currentIndex]})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      height: '300px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative', // Para posicionar absolutamente las flechas
+      transition: 'background-image 0.5s ease-in-out',
+    }}>
+    
+      {/* Botones de navegación como flechas */}
+      <button onClick={goToPrevious} style={{ 
+        position: 'absolute', 
+        left: 20, 
+        top: '50%', 
+        transform: 'translateY(-50%)', 
+        fontSize: '24px',
+        color: '#fff',
+        backgroundColor: 'transparent',
+        border: 'none',
+        cursor: 'pointer',
+      }}>
+        &#10094; {/* Símbolo de flecha hacia la izquierda */}
+      </button>
+      <button onClick={goToNext} style={{ 
+        position: 'absolute', 
+        right: 20, 
+        top: '50%', 
+        transform: 'translateY(-50%)', 
+        fontSize: '24px',
+        color: '#fff',
+        backgroundColor: 'transparent',
+        border: 'none',
+        cursor: 'pointer',
+      }}>
+        &#10095; {/* Símbolo de flecha hacia la derecha */}
+      </button>
+    </div>
   );
 };
 
-export default HeroSliderComponent;
+export default HeroBannerComponent;

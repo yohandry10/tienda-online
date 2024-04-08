@@ -24,7 +24,7 @@
     padding: 0;
     font-family: 'Centra', sans-serif;
     background: linear-gradient(135deg, #ffffff, #f0f0f0, #ffffff, #f7f7f7);
-    color: #000;
+    color: #f6f1f1;
     /* Cambiando el color de texto a negro para mejor contraste */
     font-size: 16px;
     scroll-behavior: smooth;
@@ -46,7 +46,19 @@
     }
   }
 
-
+  header{
+  
+    background-size: cover;
+    background-position:center;
+    height: 300px;
+}
+header h1{
+    text-align: center;
+    font-size: 35px;
+    /* background-color: #000; */
+    color: #fff;
+    padding: 30px 0;
+}
   /* Mejoras Específicas para NavBar */
   .navbar {
     padding: 20px 10px;
@@ -54,10 +66,10 @@
     width: 100%;
     top: 0;
     z-index: 1050;
-    background-color: rgba(18, 18, 18, 0.9);
+    background-color: rgba(0, 0, 6, 0.9);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(92, 11, 11, 0.1);
   }
 
   .navbar.scrolled {
@@ -130,20 +142,13 @@
   }
 
 
-  .product-list-container {
-    padding: 20px;
-  }
+
 
   .search-and-filter {
     margin-bottom: 20px;
   }
 
-  .product-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
+ 
   @media (max-width: 768px) {
     .product-list {
       grid-template-columns: repeat(2, 1fr);
@@ -155,37 +160,7 @@
       grid-template-columns: 1fr;
     }
   }
-  .hero-slider {
-    max-width: 80% !important; 
-    margin: auto !important;
-  }
   
-  .slick-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-position: center;
-    background-size: cover;
-  }
-  
-  .slick-slide img {
-    width: 100%; /* Asegura que la imagen cubra el ancho del slide */
-    height: auto; /* Mantiene la proporción de la imagen */
-    max-height: 70vh; /* Limita la altura máxima del slide */
-    object-fit: cover; /* Cubre el área del slide sin perder las proporciones de la imagen */
-  }
-  
-  .slick-prev, .slick-next {
-    color: #fff;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo para mejor visibilidad */
-    border-radius: 50%; /* Botones redondos */
-    width: 40px; /* Tamaño de los botones */
-    height: 40px; /* Tamaño de los botones */
-  }
   
   .slick-prev { left: 10px; }
   .slick-next { right: 10px; }
@@ -243,18 +218,64 @@
       max-height: 30vh; /* Ajuste de altura para dispositivos muy pequeños */
       }
     
-    /* Contenedor de ProductList */
-  .product-list-container {
-    max-width: 80%; /* O el porcentaje que prefieras para controlar el ancho */
-    margin: auto; /* Centra la cuadrícula en la página */
-  }.product-list {
+/* Estilos para el contenedor principal de la lista de productos */
+.product-list-container {
+  max-width: 80%; /* Controla el ancho del contenedor principal */
+  margin: auto; /* Centra el contenedor en la página */
+  padding: 10px; /* Agrega un padding alrededor para evitar que los elementos toquen los bordes */
+  display: flex;
+  justify-content: space-between; /* Esto no afectará directamente a .product-list si este ya está centrado */
+}
+
+  /* Estilos específicos para la lista de productos */
+  .product-list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, max-content));
-    gap: 8px;
-   
-    justify-content: center; 
+    grid-template-columns: repeat(4, 1fr); /* Mantiene 4 columnas, distribuyendo el espacio uniformemente */
+    gap: 30px; /* Espacio entre los elementos y filas ajustado para más coherencia */
+    justify-content: center; /* Alinea los elementos de la cuadrícula hacia el centro del contenedor */
+    padding: 10px 0; /* Añade un poco de padding vertical para separación */
   }
-  
+
+  /* Estilos para cada item dentro de la cuadrícula de productos */
+  .product-list .item {
+    border: 1px solid #666; /* Define el borde de cada producto */
+    border-radius: 10px; /* Redondea los bordes */
+    padding: 20px; /* Espacio interno alrededor del contenido de cada producto */
+    transition: all .3s ease-in-out; /* Suaviza la transición de efectos como el hover */
+  }
+
+  .product-list .item .img-item {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho del item */
+  }
+
+  .product-list .item:hover {
+    box-shadow: 0 0 10px #666; /* Sombra para destacar el item al pasar el mouse */
+    transform: scale(1.05); /* Ligeramente más grande al hacer hover */
+  }
+
+  .product-list .item .titulo-item, .product-list .item .precio-item {
+    text-align: center; /* Centra el texto dentro del item */
+    font-weight: bold; /* Texto en negrita para mayor legibilidad */
+  }
+
+  .product-list .item .titulo-item {
+    text-transform: uppercase; /* MAYÚSCULAS para el título */
+  }
+
+  .product-list .item .precio-item {
+    font-size: 22px; /* Tamaño de fuente para el precio */
+  }
+
+  .product-list .item .boton-item {
+    display: block;
+    margin: 10px auto; /* Centra el botón bajo el contenido */
+    background-color: black; /* Fondo negro para el botón */
+    color: white; /* Texto blanco para contraste */
+    padding: 5px 15px; /* Padding alrededor del texto del botón */
+    border-radius: 5px; /* Bordes redondeados para el botón */
+    cursor: pointer; /* Cursor en forma de mano al pasar por encima */
+    border: none; /* Quita el borde por defecto del botón */
+  }
 
 
   @media (max-width: 768px) {
