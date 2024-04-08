@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-const ProductDetails = ({ productId }) => {
+const ProductDetails = () => {
+  const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Asume que tienes una función o constante que define la URL del backend
     const fetchProductDetails = async () => {
       try {
+        // Reemplaza con la URL real de tu API
         const response = await fetch(`[URL_BACKEND]/api/products/${productId}`);
         if (!response.ok) {
           throw new Error('Producto no encontrado');
@@ -35,6 +37,7 @@ const ProductDetails = ({ productId }) => {
   return (
     <div className="product-details">
       <h2>{product.name}</h2>
+      <img src={product.image} alt={product.name} style={{ maxWidth: "100%" }} />
       <p>{product.description}</p>
       <p>Precio: ${product.price}</p>
       <p>Stock disponible: {product.stock > 0 ? `${product.stock} unidades` : "Producto no disponible"}</p>

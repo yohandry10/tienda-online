@@ -12,11 +12,55 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import GestorCompras from './components/PurchaseManager';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
 import PreloadComponent from './components/PreloadComponent';
 import ParallaxEffectComponent from './components/ParallaxEffectComponent';
 import BackToTopButtonComponent from './components/BackToTopButtonComponent';
-import HeroSliderControl from './components/HeroSliderControl'; // Asegúrate de importar el nuevo componente
+import HeroSliderControl from './components/HeroSliderControl';
+
+const Televisores = () => {
+    return (
+      <div>
+        <h2>Televisores</h2>
+        <p>Aquí va el contenido de la página de Televisores</p>
+      </div>
+    );
+}
+
+const ModaMujeres = () => {
+    return (
+      <div>
+        <h2>Moda Mujeres</h2>
+        <p>Aquí va el contenido de la página de Moda Mujeres</p>
+      </div>
+    );
+}
+
+const ModaHombres = () => {
+    return (
+      <div>
+        <h2>Moda Hombres</h2>
+        <p>Aquí va el contenido de la página de Moda Hombres</p>
+      </div>
+    );
+}
+
+const Ninos = () => {
+    return (
+      <div>
+        <h2>Niños</h2>
+        <p>Aquí va el contenido de la página de Niños</p>
+      </div>
+    );
+}
+
+const Deportes = () => {
+    return (
+      <div>
+        <h2>Deportes</h2>
+        <p>Aquí va el contenido de la página de Deportes</p>
+      </div>
+    );
+}
 
 function App() {
     const [cartItems, setCartItems] = useState([]);
@@ -46,7 +90,7 @@ function App() {
             <Router>
                 <PreloadComponent />
                 <NavBar totalCartItems={totalCartItems} />
-                <HeroSliderControl /> {/* Usar el componente de control aquí */}
+                <HeroSliderControl />
                 <Routes>
                     <Route path="/signin" element={<SignIn />} />
                     <Route path="/signup" element={<SignUp />} />
@@ -59,9 +103,15 @@ function App() {
                             <Navigate to="/signin" />
                         )
                     } />
-                    <Route path="cart" element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />} />
-                    <Route path="products/:id" element={<ProductDetails />} />
-                    <Route path="admin" element={auth.currentUser ? <GestorCompras /> : <Navigate to="/signin" />} />
+                    <Route path="/cart" element={<Cart cartItems={cartItems} removeFromCart={removeFromCart} updateQuantity={updateQuantity} />} />
+                    <Route path="/products/:id" element={<ProductDetails />} />
+                    <Route path="/admin" element={auth.currentUser ? <GestorCompras /> : <Navigate to="/signin" />} />
+                    <Route path="/category/televisores" element={<Televisores />} />
+                    <Route path="/category/moda-mujeres" element={<ModaMujeres />} />
+                    <Route path="/category/moda-hombres" element={<ModaHombres />} />
+                    <Route path="/category/ninos" element={<Ninos />} />
+                    <Route path="/category/deportes" element={<Deportes />} />
+                    {/* Agrega más rutas según sea necesario */}
                 </Routes>
                 <BackToTopButtonComponent />
             </Router>

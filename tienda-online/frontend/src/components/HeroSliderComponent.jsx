@@ -57,10 +57,10 @@ const HeroSliderComponent = () => {
         <TrackVisibility key={index}>
           {({ isVisible }) => (
             <div className={isVisible ? "animate__animated animate__zoomIn" : ""}>
-              <img src={image} alt={`Slide ${index + 1}`} style={{ width: '100%', height: 'auto' }}/>
+              <img src={image} alt={`Slide ${index + 1}`} style={{ width: '100%', height: 'auto' }} />
               <div className="slider-text">
                 {/* Ajusta los mensajes de acuerdo a cada imagen */}
-            
+
               </div>
             </div>
           )}

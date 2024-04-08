@@ -16,4 +16,4 @@ const ProductList = ({ addToCart }) => { // Defines ProductList component
   );
 };
 
-export default ProductList; // Exports the ProductList component
+export default ProductList;

@@ -156,9 +156,8 @@
     }
   }
   .hero-slider {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
+    max-width: 80% !important; 
+    margin: auto !important;
   }
   
   .slick-slide {
@@ -238,13 +237,28 @@
       max-height: 50vh; /* Altura máxima más conservadora para móviles */
     }
   }
-  
-  @media (max-width: 480px) {
-    .product-list {
-      grid-template-columns: 1fr;
-    }
+ 
   
     .slick-slide img {
       max-height: 30vh; /* Ajuste de altura para dispositivos muy pequeños */
+      }
+    
+    /* Contenedor de ProductList */
+  .product-list-container {
+    max-width: 80%; /* O el porcentaje que prefieras para controlar el ancho */
+    margin: auto; /* Centra la cuadrícula en la página */
+  }.product-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 8px;
+   
+    justify-content: center; 
+  }
+  
+
+
+  @media (max-width: 768px) {
+    .product-list {
+        grid-template-columns: 1fr; /* En dispositivos más pequeños, solo 1 producto por fila */
     }
   }
